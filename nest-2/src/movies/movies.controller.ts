@@ -10,6 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
@@ -45,7 +46,7 @@ export class MoviesController {
 
   // Put은 모든 리소스를 업데이트해주는데 Patch는 일부 리소스만 업데이트를 해줌
   @Patch(':id')
-  patch(@Param('id') movieId: number, @Body() updateData) {
+  patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDto) {
     return this.moviesService.update(movieId, updateData);
   }
 }
