@@ -2,6 +2,16 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
+/* 
+테스팅 방법
+npm run test -> 전체 테스트
+npm run test:cov -> 테스트 파일이 얼마나 테스트 됐는지 확인
+npm run test:watch -> 
+npm run test:e2e -> 페이지 접속시 특정 페이지가 나와야 하는 경우 사용, 즉 사용자가 취할만한 액션 전체를 테스팅
+
+유닛 테스팅 -> 함수 하나하나 따로 테스팅하고 싶을 때 사용(ex: getAll())
+*/
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   /*
