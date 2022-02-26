@@ -30,6 +30,9 @@ describe('AppController (e2e)', () => {
   });
 
   // 테스팅 데이터베이스와 메인 데이터베이스를 나눠서 가지고 있어야 함.
+  // 테스트는 경우의 수가 많기 때문에 사소한 부분이라도 놓치지 않고 작성하는 게 좋다.
+  // ex : 삭제가 된 경우와 삭제하려는 파라미터 값이 없을 경우,
+  //      생성하려는 데이터와 타입이 일치하지 않는 데이터 등 모든 경우의 수
   describe('/movies', () => {
     it('GET', () => {
       // request는 슈퍼테스트에서 가져와서 쓰는 것이고,
@@ -37,7 +40,7 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer()).get('/movies').expect(200).expect([]);
     });
 
-    it('POST', () => {
+    it('POST 201', () => {
       return request(app.getHttpServer())
         .post('/movies')
         .send({
@@ -46,6 +49,18 @@ describe('AppController (e2e)', () => {
           year: 2000,
         })
         .expect(201);
+    });
+
+    it('POST 400', () => {
+      return request(app.getHttpServer())
+        .post('/movies')
+        .send({
+          title: 'test',
+          genres: ['test'],
+          year: 2000,
+          other: 'thing',
+        })
+        .expect(400);
     });
 
     // delete는 method not allowed가 아닌 not found 404를 받는다.
@@ -62,7 +77,15 @@ describe('AppController (e2e)', () => {
     it('GET 404', () => {
       return request(app.getHttpServer()).get('/movies/999').expect(404);
     });
-    it.todo('DELETE');
-    it.todo('PATCH');
+    // 삭제 테스트를 먼저 수행하면 남아있는 데이터가 없기에 업데이트 테스트 우선 작성
+    it('PATCH 200', () => {
+      return request(app.getHttpServer())
+        .patch('/movies/1')
+        .send({ title: 'update test', genres: ['update test'], year: 2020 })
+        .expect(200);
+    });
+    it('DELETE 200', () => {
+      return request(app.getHttpServer()).delete('/movies/1').expect(200);
+    });
   });
 });
