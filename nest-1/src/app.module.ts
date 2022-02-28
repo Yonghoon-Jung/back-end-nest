@@ -9,20 +9,7 @@ import { ServerController } from './server/server.controller';
 import { Server } from './server/entities/server.entities';
 
 @Module({
-  imports: [
-    UsersModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'back-study.cnl5ijkdkejv.ap-northeast-2.rds.amazonaws.com',
-      port: 3306,
-      username: 'admin',
-      password: 'dydeorkf12',
-      database: 'back_study',
-      entities: ['dist/**/*.entity{.ts,.js}', Server],
-      synchronize: true,
-    }),
-    ServerModule,
-  ],
+  imports: [UsersModule, TypeOrmModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })

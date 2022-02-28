@@ -1,0 +1,10 @@
+{
+  "type": "mysql",
+  "host": "back-study.cnl5ijkdkejv.ap-northeast-2.rds.amazonaws.com",
+  "port": 3306,
+  "username": "admin",
+  "password": "dydeorkf12",
+  "database": "back_study",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true
+}

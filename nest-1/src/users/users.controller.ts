@@ -9,7 +9,6 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -19,10 +18,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  createNewUser(@Req() request: Request) {
-    const a = request.body;
-    console.log(a);
-    return this.usersService.createNewUser(a);
+  create(@Body() userData: CreateUserDto) {
+    console.log(userData);
+    return this.usersService.create(userData);
   }
 
   @Get()
@@ -31,7 +29,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param() id: string) {
+  findOne(@Param() id: number) {
     console.log(id);
     return this.usersService.findOne(id);
   }
@@ -43,7 +41,7 @@ export class UsersController {
   // }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.usersService.remove(id);
   }
 }
