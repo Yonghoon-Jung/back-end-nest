@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
 
@@ -11,9 +19,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number): Promise<User> {
-    return this.usersService.findOne(id);
+  @Get(':no')
+  findOne(@Param('no') no: number): Promise<User> {
+    return this.usersService.findOne(no);
   }
 
   @Post()
@@ -21,8 +29,14 @@ export class UsersController {
     this.usersService.create(user);
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: number) {
-    return this.usersService.delete(id);
+  @Delete(':no')
+  delete(@Param('no') no: number) {
+    return this.usersService.delete(no);
+  }
+
+  @Put(':no')
+  update(@Param('no') no: number, @Body() user: User) {
+    this.usersService.update(no, user);
+    return '업데이트 완료';
   }
 }
