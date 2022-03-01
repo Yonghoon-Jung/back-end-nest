@@ -10,20 +10,7 @@ import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/entities/boards.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'back-study.cnl5ijkdkejv.ap-northeast-2.rds.amazonaws.com',
-      port: 3306,
-      username: 'admin',
-      password: 'dydeorkf12',
-      database: 'back_study',
-      entities: [User, Board],
-      synchronize: true, // 개발 모드일 때만 사용
-    }),
-    UsersModule,
-    BoardsModule,
-  ],
+  imports: [TypeOrmModule.forRoot({}), UsersModule, BoardsModule],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
 })
