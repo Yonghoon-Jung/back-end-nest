@@ -1,0 +1,8 @@
+db:
+  host: 'back-study.cnl5ijkdkejv.ap-northeast-2.rds.amazonaws.com'
+  username: 'admin'
+  password: 'dydeorkf12'
+  synchronize: true
+
+jwt:
+  secret: 'Secret1234'
