@@ -4,7 +4,7 @@ server:
 db:
   type: 'mysql'
   port: 3306
-  database: 'back_study'
+  database: 'study_db'
 
 jwt:
   expriesIn: 3600

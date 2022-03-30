@@ -1,7 +1,7 @@
 db:
-  host: 'back-study.cnl5ijkdkejv.ap-northeast-2.rds.amazonaws.com'
-  username: 'admin'
-  password: 'dydeorkf12'
+  host: 'localhost'
+  username: 'study'
+  password: '1234'
   synchronize: true
 
 jwt:
