@@ -2,14 +2,19 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
+  UseFilters,
 } from '@nestjs/common';
+import { HttpExceptionFilter } from 'src/http-exception.filter';
 import { CatsService } from './cats.service';
 
 @Controller('cats')
+@UseFilters(HttpExceptionFilter)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
@@ -19,7 +24,7 @@ export class CatsController {
   }
 
   @Get('/:id')
-  getOneCat(@Param() param) {
+  getOneCat(@Param('id', ParseIntPipe) param: number) {
     return 'one cat';
   }
 
