@@ -9,12 +9,15 @@ import {
   Post,
   Put,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PositiveIntPipe } from 'src/common/pipes/positiveint.pipe';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
+import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { CatsService } from './cats.service';
+import { SuccesseInterceptor } from 'src/common/interceptors/success.interceptor';
 
 @Controller('cats')
+@UseInterceptors(SuccesseInterceptor)
 @UseFilters(HttpExceptionFilter)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
@@ -26,7 +29,7 @@ export class CatsController {
 
   @Get('/:id')
   getOneCat(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
-    return 'one cat';
+    return { cats: 'one cat' };
   }
 
   @Post()
