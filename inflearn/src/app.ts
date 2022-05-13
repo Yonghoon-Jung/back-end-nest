@@ -1,25 +1,49 @@
 import * as express from "express";
 import catsRouter from "./cats/cats.route";
 
-const app: express.Express = express();
-const port: number = 8000;
+class Server {
+  public app: express.Application;
 
-// 로깅 미들웨어
-app.use((req, res, next: express.NextFunction) => {
-  console.log(req.rawHeaders[1]);
-  next();
-});
+  constructor() {
+    const app: express.Application = express();
+    this.app = app;
+  }
 
-// json 미들웨어 추가
-app.use(express.json());
+  private setRoute() {
+    this.app.use(catsRouter);
+  }
 
-app.use(catsRouter);
+  private setMiddleware() {
+    // 로깅 미들웨어
+    this.app.use((req, res, next: express.NextFunction) => {
+      console.log(req.rawHeaders[1]);
+      next();
+    });
 
-// 경로를 찾지 못했을 경우 에러 핸들링 미들웨어
-app.use((req, res, next: express.NextFunction) => {
-  res.send({ error: "404 not found error" });
-});
+    // json 미들웨어 추가
+    this.app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+    this.setRoute();
+
+    // 경로를 찾지 못했을 경우 에러 핸들링 미들웨어
+    this.app.use((req, res, next: express.NextFunction) => {
+      res.send({ error: "404 not found error" });
+    });
+  }
+
+  public listen() {
+    const port: number = 8000;
+
+    this.setMiddleware();
+    this.app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`);
+    });
+  }
+}
+
+function init() {
+  const server = new Server();
+  server.listen();
+}
+
+init();
