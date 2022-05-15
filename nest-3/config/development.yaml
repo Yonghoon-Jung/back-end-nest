@@ -1,8 +1,0 @@
-db:
-  host: 'localhost'
-  username: 'study'
-  password: '1234'
-  synchronize: true
-
-jwt:
-  secret: 'Secret1234'
