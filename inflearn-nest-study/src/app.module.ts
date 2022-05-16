@@ -6,13 +6,14 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
-dotenv.config();
+const envModule = ConfigModule.forRoot({
+  isGlobal: true,
+});
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    envModule,
     MongooseModule.forRoot(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
