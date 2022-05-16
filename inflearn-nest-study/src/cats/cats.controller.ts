@@ -23,27 +23,27 @@ export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Get()
-  getAllCat() {
-    return 'all cat';
-  }
-
-  @Get('/:id')
-  getOneCat(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
-    return { cats: 'one cat' };
+  getCurrentCat() {
+    return 'getcat';
   }
 
   @Post()
-  createCat() {
+  async signUp() {
+    return 'signUp';
+  }
+
+  @Post('/login')
+  logIn() {
     return 'create Cat';
   }
 
-  @Put('/:id')
-  updateCat(@Param() param) {
+  @Post('/logout')
+  logOut() {
     return 'put cat';
   }
 
-  @Patch('/:id')
-  updatePartialCat(@Param() param) {
+  @Post('/upload/cats')
+  uploadCatImg() {
     return 'patch cat';
   }
 
