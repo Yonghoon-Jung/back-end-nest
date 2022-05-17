@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  UploadedFile,
   UploadedFiles,
   UseFilters,
   UseGuards,
@@ -60,16 +61,17 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
-  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
+  @UseInterceptors(
+    AmazonS3FileInterceptor('image', {
+      dynamicPath: 'cats',
+    }),
+  )
   @UseGuards(JwtAuthGuard)
   @Post('/upload')
-  uploadCatImg(
-    @UploadedFiles() files: Array<Express.Multer.File>,
-    @CurrentUser() cat: Cat,
-  ) {
+  uploadCatImg(@UploadedFile() filee: any, @CurrentUser() cat: Cat) {
     // return 'patch cat';
     // return { image: `http://localhost:8000/media/cats/${files[0].filename}` };
-    return this.catsService.uploadImg(cat, files);
+    return this.catsService.uploadImg(cat, file);
   }
 
   @ApiOperation({ summary: '모든 고양이 가져오기' })
