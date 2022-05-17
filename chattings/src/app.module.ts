@@ -2,6 +2,7 @@ import { Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ChatsModule } from './chats/chats.module';
 import mongoose from 'mongoose';
 
 @Module({
@@ -13,6 +14,7 @@ import mongoose from 'mongoose';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [],
