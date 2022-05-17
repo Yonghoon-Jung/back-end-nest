@@ -1,18 +1,34 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Cat } from './cats.schema';
 import { CatRequestDto } from './dto/cats.request.dto';
-
+import * as mongoose from 'mongoose';
+import { CommentsSchema } from 'src/comments/comments.schema';
 @Injectable()
 export class CatsRepository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
   async findAll() {
-    return await this.catModel.find();
+    const CommentsModel = mongoose.model('comments', CommentsSchema);
+
+    /* 
+    Schema hasn't beeb registered for model "comments" 오류가 발생했는데
+    몽고디비 버전이랑 네스트가 호환되지 않아서 발생한 오류
+    package.json 버전 명시 아래와 같이 수정
+    "mongoose" : "^5.13.9"
+    "@nestjs/mongoose" : "^8.0.1"
+    */
+    const result = await this.catModel
+      .find()
+      .populate('comments', CommentsModel);
+
+    return result;
   }
 
-  async findCatByIdWithoutPassword(catId: string): Promise<Cat | null> {
+  async findCatByIdWithoutPassword(
+    catId: string | Types.ObjectId,
+  ): Promise<Cat | null> {
     const cat = this.catModel.findById(catId).select('-password');
     return cat;
   }
