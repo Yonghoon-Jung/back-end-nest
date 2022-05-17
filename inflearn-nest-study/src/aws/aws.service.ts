@@ -32,8 +32,7 @@ export class AwsService {
       const key = `${folder}/${Date.now()}_${path.basename(
         file.originalname,
       )}`.replace(/ /g, '');
-      console.log(key);
-      console.log(this.S3_BUCKET_NAME);
+
       const s3Object = await this.awsS3
         .putObject({
           Bucket: this.S3_BUCKET_NAME,
