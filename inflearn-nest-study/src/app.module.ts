@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
+import { AwsService } from './aws/aws.service';
 import mongoose from 'mongoose';
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
@@ -24,7 +25,7 @@ const envModule = ConfigModule.forRoot({
     CommentsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AwsService],
 })
 export class AppModule implements NestModule {
   private readonly isDev: boolean = process.env.MODE === 'dev' ? true : false;

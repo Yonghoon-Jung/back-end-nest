@@ -2,6 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from 'src/auth/auth.module';
+import { AwsService } from 'src/aws/aws.service';
 import { Comments, CommentsSchema } from 'src/comments/comments.schema';
 import { CatsRepository } from './cats.repository';
 import { Cat, CatSchema } from './cats.schema';
@@ -23,7 +24,7 @@ import { CatsService } from './services/cats.service';
     forwardRef(() => AuthModule),
   ],
   controllers: [CatsController],
-  providers: [CatsService, CatsRepository],
+  providers: [CatsService, CatsRepository, AwsService],
   exports: [CatsService, CatsRepository],
 })
 export class CatsModule {}

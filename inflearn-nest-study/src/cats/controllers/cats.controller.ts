@@ -19,9 +19,10 @@ import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/common/utils/multer.options';
 import { Cat } from '../cats.schema';
+import { AwsService } from 'src/aws/aws.service';
 
 @Controller('cats')
 @UseInterceptors(SuccesseInterceptor)
@@ -30,6 +31,7 @@ export class CatsController {
   constructor(
     private readonly catsService: CatsService,
     private readonly authService: AuthService,
+    private readonly awsService: AwsService,
   ) {}
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
@@ -61,17 +63,17 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
-  @UseInterceptors(
-    AmazonS3FileInterceptor('image', {
-      dynamicPath: 'cats',
-    }),
-  )
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   @Post('/upload')
-  uploadCatImg(@UploadedFile() filee: any, @CurrentUser() cat: Cat) {
+  async uploadCatImg(
+    @UploadedFile() file: Express.Multer.File,
+    @CurrentUser() cat: Cat,
+  ) {
     // return 'patch cat';
     // return { image: `http://localhost:8000/media/cats/${files[0].filename}` };
-    return this.catsService.uploadImg(cat, file);
+    return await this.awsService.uploadFileToS3('cats', file);
+    // return this.catsService.uploadImg(cat, file);
   }
 
   @ApiOperation({ summary: '모든 고양이 가져오기' })
