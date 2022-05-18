@@ -9,12 +9,41 @@ const formElement = getElementById('chat_form');
 
 // broadcast 수신
 socket.on('user_connected', (username) => {
-  console.log(`${username} connected :)`);
+  drawNewChat(`${username} connected :)`);
+});
+socket.on('new_chat', (data) => {
+  const { chat, username } = data;
+  drawNewChat(`${username}: ${chat}`);
 });
 
 // 그리는 함수
 const drawHelloStranger = (username) => {
   helloStrangerElement.innerText = `hello ${username} Stranger :)`;
+};
+const drawNewChat = (message) => {
+  const wrapperChatBox = document.createElement('div');
+  const chatBox = `
+    <div>
+      ${message}
+    </div>
+  `;
+  wrapperChatBox.innerHTML = chatBox;
+  chattingBoxElement.append(wrapperChatBox);
+};
+
+// 이벤트 콜백 함수
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  // submit data 받기
+  const inputValue = event.target.elements[0].value;
+  if (inputValue !== '') {
+    socket.emit('submit_chat', inputValue);
+    // 화면 그리기
+    drawNewChat(`me: ${inputValue}`);
+    event.target.elements[0].value = '';
+  }
+  console.log(inputValue);
 };
 
 function helloUser() {
@@ -26,6 +55,8 @@ function helloUser() {
 
 function init() {
   helloUser();
+  // 이벤트 연결
+  formElement.addEventListener('submit', handleSubmit);
 }
 
 init();

@@ -34,6 +34,7 @@ export class ChatsGateway
   afterInit(server: any) {
     this.logger.log('init');
   }
+
   @SubscribeMessage('new_user') // new_user -> 이벤트 이름
   handleNewUser(
     @MessageBody() username: string,
@@ -42,5 +43,17 @@ export class ChatsGateway
     // username을 db에 적재, 브로드캐스트 방식
     socket.broadcast.emit('user_connected', username);
     return username;
+  }
+
+  @SubscribeMessage('submit_chat') // submit_chat -> 이벤트 이름
+  handleSubmitChat(
+    @MessageBody() chat: string,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    // username을 db에 적재, 브로드캐스트 방식
+    socket.broadcast.emit('new_chat', {
+      chat,
+      username: socket.id,
+    });
   }
 }
