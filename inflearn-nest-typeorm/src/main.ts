@@ -25,10 +25,10 @@ class Application {
 
     if (!process.env.SECRET_KEY) this.logger.error('Set "SECRET" env')
     this.DEV_MODE = process.env.NODE_ENV === 'production' ? false : true
-    this.PORT = process.env.PORT || '5000'
+    this.PORT = process.env.PORT || '8000'
     this.corsOriginList = process.env.CORS_ORIGIN_LIST
       ? process.env.CORS_ORIGIN_LIST.split(',').map((origin) => origin.trim())
-      : ['*']
+      : ['*'] // API를 사용하는 도메인 경로를 적어줘야 함
     this.ADMIN_USER = process.env.ADMIN_USER || 'amamov'
     this.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '1205'
   }

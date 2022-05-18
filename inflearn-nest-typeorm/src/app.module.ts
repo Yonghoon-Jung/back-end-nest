@@ -43,7 +43,7 @@ const typeOrmModuleOptions = {
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
-        PORT: Joi.number().default(5000),
+        PORT: Joi.number().default(8000),
         SECRET_KEY: Joi.string().required(),
         ADMIN_USER: Joi.string().required(),
         ADMIN_PASSWORD: Joi.string().required(),
