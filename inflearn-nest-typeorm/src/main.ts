@@ -76,7 +76,7 @@ class Application {
     this.server.use(passport.initialize())
     this.server.use(passport.session())
     this.server.useGlobalInterceptors(
-      new ClassSerializerInterceptor(this.server.get(Reflector)),
+      new ClassSerializerInterceptor(this.server.get(Reflector)), // exclude가 붙은 것들을 제외해주는 미들웨어
     )
     this.server.useGlobalFilters(new HttpApiExceptionFilter())
   }

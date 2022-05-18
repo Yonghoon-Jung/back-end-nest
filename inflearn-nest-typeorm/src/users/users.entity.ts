@@ -20,7 +20,7 @@ export class UserEntity extends CommonEntity {
   @Column({ type: 'varchar', nullable: false })
   username: string
 
-  @Exclude()
+  @Exclude() // exclude를 통해 최종 컨트롤러 리턴시 적용된 컬럼은 제외되고 리턴됨
   @Column({ type: 'varchar', nullable: false })
   password: string
 
