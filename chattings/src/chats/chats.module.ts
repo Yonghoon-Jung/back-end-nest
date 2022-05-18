@@ -6,10 +6,10 @@ import { SocketSchema, Socket as SocketModel } from './models/sockets.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature(
+    MongooseModule.forFeature([
       { name: Chatting.name, schema: ChattingSchema },
       { name: SocketModel.name, schema: SocketSchema },
-    ),
+    ]),
   ],
   providers: [ChatsGateway],
 })

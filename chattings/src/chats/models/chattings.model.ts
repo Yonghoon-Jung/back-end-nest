@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { IsString, IsNotEmpty } from 'class-validator';
 import { Socket as SocketModel } from './sockets.model';
 
