@@ -70,10 +70,8 @@ export class CatsController {
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() cat: Cat,
   ) {
-    // return 'patch cat';
     // return { image: `http://localhost:8000/media/cats/${files[0].filename}` };
     return await this.awsService.uploadFileToS3('cats', file);
-    // return this.catsService.uploadImg(cat, file);
   }
 
   @ApiOperation({ summary: '모든 고양이 가져오기' })
